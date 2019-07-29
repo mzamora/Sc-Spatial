@@ -64,7 +64,7 @@ switch experiment
         nxs=[400,400,400,400,400];
         nzs=[131,131,131,131,131];
 %         datafolder='../../uclales_output/dycoms_rf01/grid_sens/'; % in the panthers
-        datafolder='../LESoutput/'; % in the panthers
+        datafolder='../in/LESoutput/'; % in the panthers
     case 'dycoms_14km_SHF'
         outdir=['../out/',experiment];
         nkxdays={'0SHF_dx35dz10_14km','05SHF_dx35dz10_14km','ctl_dx35dz10_14km','15SHF_dx35dz10_14km','2SHF_dx35dz10_14km'};
@@ -149,10 +149,10 @@ end
 close all;
 
 %% slices at height with greatest CF
-time=60; % 1:right after hr3, 60:hr 4
+time=1; % 1:right after hr3, 60:hr 4
 doplots=1;
 
-for ii=numcases:-1:1
+for ii=2:-1:1
     %% load 3d vars at that time
     filename=[datafolder,nkxdays{ii},'/hr3_4/'];
     var3d={'w','u','v','tl','tv','qt','ql','LWP'};
@@ -161,15 +161,15 @@ for ii=numcases:-1:1
     %% vertical cloud fraction and levels
     ps3d(ii)=get_vertical_cloudfrac_levels(ql,LWP,tl,ps(ii));
     if doplots
-    plot(ps3d(ii).nql(ps3d(ii).izb:ps3d(ii).izt),ps3d(ii).izb:ps3d(ii).izt,'.-'); xlabel('Cloudy area fraction'); ylabel('z levels') %#ok<UNRCH>
+    plot(ps3d(ii).nql(ps3d(ii).nql_izb:ps3d(ii).nql_izt),ps3d(ii).nql_izb:ps3d(ii).nql_izt,'.-'); xlabel('Cloudy area fraction'); ylabel('z levels') %#ok<UNRCH>
     fig = gcf; fig.PaperUnits = 'inches'; fig.PaperPosition = [0 0 4 3];
     print([outdir,'/statsLES_cloudprofile_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc') %it will write it each time though
     clf 
     
     %% plot contours in xy
     sp1=subplot('Position',[0.05,0.1,0.25,.8]); plot_wanom_contour(u,v,w,10); title('$0.1 z/z_i$','Interpreter','latex')
-    sp2=subplot('Position',[0.38,0.1,0.25,.8]); plot_wanom_contour(u,v,w,ps3d(ii).iz_nqlmax); title('Max. CF','Interpreter','latex');
-    sp3=subplot('Position',[0.71,0.1,0.25,0.8]); plot_ql_xy_contour(u,v,ql,ps3d(ii).iz_nqlmax); title('Max. CF','Interpreter','latex');
+    sp2=subplot('Position',[0.38,0.1,0.25,.8]); plot_wanom_contour(u,v,w,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');
+    sp3=subplot('Position',[0.71,0.1,0.25,0.8]); plot_ql_xy_contour(u,v,ql,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');
 
     fig = gcf; fig.PaperUnits = 'inches'; fig.PaperPosition = [0 0 12 3];
     print([outdir,'/statsLES_maxCFslice_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc','-r600') %it will write it each time though
@@ -361,7 +361,7 @@ legend('0SHF-hr3','0SHF-hr4','05SHF-hr3','05SHF-hr4','CTRL-hr3','CTRL-hr4','15SH
 xlabel('$u_{*0}$','Interpreter','latex'); ylabel('$w_{*0}$','Interpreter','latex'); 
 print([outdir,'/statsLES_scaling_usws'],'-depsc')
 
-%% u star vs 
+%% u star vs w star
 for ii=numcases:-1:1
 plot(sp(ii).u_star_i(1),sp(ii).w_star_i(1),'o','Color',base(ii).color); hold on
 plot(sp(ii).u_star_i(2),sp(ii).w_star_i(2),'^','Color',base(ii).color)

@@ -223,15 +223,15 @@ end
 
 %%
 for ip=[1,4,7,10]
-    rectangle(sp(ip),'Position',[-7 -7 7.2 2],'FaceColor','k','EdgeColor','none')
+    rectangle(sp(ip),'Position',[-7 -7 7.4 2],'FaceColor','k','EdgeColor','none')
     text(sp(ip),-6.9,-6,'000U-S10','Color','y','FontSize',14)
 end
 for ip=[2,5,8,11]
-    rectangle(sp(ip),'Position',[-7 -7 7.2 2],'FaceColor','k','EdgeColor','none')
+    rectangle(sp(ip),'Position',[-7 -7 7.4 2],'FaceColor','k','EdgeColor','none')
     text(sp(ip),-6.9,-6,'050U-S10','Color','y','FontSize',14)
 end
 for ip=[3,6,9,12]
-    rectangle(sp(ip),'Position',[-7 -7 7.2 2],'FaceColor','k','EdgeColor','none')
+    rectangle(sp(ip),'Position',[-7 -7 7.4 2],'FaceColor','k','EdgeColor','none')
     text(sp(ip),-6.9,-6,'CTRL-S10','Color','y','FontSize',14)
 end
 
@@ -247,7 +247,7 @@ fig=gcf; fig.PaperUnits='inches'; fig.PaperPosition=[0 0 7 8];
 print(filename,'-dpng','-r300')
 print([filename,'_r600'],'-dpng','-r600')
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% extra: weak shear (if needed, not currently in the paper)
 figure('Position',[1300 0 600 700])
 iis=[10,8,6];

@@ -67,7 +67,7 @@ set(gca,'FontSize',12)
 sp3=subplot(233); imagesc(orients_cld'); %ylim([-60 60])
 xticks([]); %xticks(1:11); xticklabels(gnrl.mylgd);xtickangle(45)
 yticks(.5:2:12.5); yticklabels(-90:30:90); caxis([0 0.33])
-title('Cloud cores','Interpreter','latex')
+title('Cloud centers','Interpreter','latex')
 text(0,1.1,'c)','Units','Normalized','VerticalAlignment','Top','FontSize',12,'Interpreter','latex') %subplot label
 set(gca,'FontSize',12)
 c=colorbar; ylabel(c,'Frequency','Interpreter','latex','Fontsize',12)

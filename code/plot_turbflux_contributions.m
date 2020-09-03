@@ -1,3 +1,4 @@
+% redo if needed
 for ii=1:11
     casename=base(ii).name;
     filename=[casename(1:end-4),'hr3_4/'];
@@ -12,15 +13,14 @@ for ii=1:11
 %     [obj_ud(ii).wtl_cs_UD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,w,tl,izt,nz,nx,ny);
 %     [obj_ud(ii).wql_cs_UD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,w,ql,izt,nz,nx,ny);
 %     [obj_ud(ii).wqt_cs_UD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,w,qt,izt,nz,nx,ny);
-    q=sqrt(u.^2+v.^2);
-    [obj_ud(ii).wq_cs_UD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,w,q,izt,nz,nx,ny);
+    
     
 %     [obj_ud(ii).ww_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,w,izt,nz,nx,ny);
 %     [obj_ud(ii).wtv_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,tv,izt,nz,nx,ny);
 %     [obj_ud(ii).wtl_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,tl,izt,nz,nx,ny);
 %     [obj_ud(ii).wql_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,ql,izt,nz,nx,ny);
 %     [obj_ud(ii).wqt_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,qt,izt,nz,nx,ny);
-    [obj_ud(ii).wq_cs_DD,~]=get_cs_fluxes_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,w,q,izt,nz,nx,ny);
+    
 end
 
 
@@ -407,46 +407,65 @@ for ii=1:11
     total=obj_ud(ii).ww+ps(ii).ww_sfs(:,it);
     frac1=InII./ItoVI; frac1(frac1>fracmax)=nan;
     frac2=InII./total; frac2(frac2>fracmax)=nan;
-    fracofUDDD_ww(ii)=nanmean(frac1(1:ps3d(ii).nql_izt))
-    fracoftotal_ww(ii)=nanmean(frac2(1:ps3d(ii).nql_izt))
+    fracofUDDD_ww(ii)=nanmean(frac1(1:ps3d(ii,time).nql_izt))
+    fracoftotal_ww(ii)=nanmean(frac2(1:ps3d(ii,time).nql_izt))
     
     InII=sum(obj_ud(ii).wtv_cs_UD(:,1:2)+obj_ud(ii).wtv_cs_DD(:,1:2),2);
     ItoVI=sum(obj_ud(ii).wtv_cs_UD(:,:)+obj_ud(ii).wtv_cs_DD(:,:),2);
     total=obj_ud(ii).wtv+ps(ii).buoy_sfs(:,it)*289/9.81;
     frac1=InII./ItoVI; frac1(abs(frac1)>fracmax)=nan;
     frac2=InII./total; frac2(abs(frac2)>fracmax)=nan;
-    fracofUDDD_wtv(ii)=nanmean(frac1(1:ps3d(ii).nql_izt))
-    fracoftotal_wtv(ii)=nanmean(frac2(1:ps3d(ii).nql_izt))
+    fracofUDDD_wtv(ii)=nanmean(frac1(1:ps3d(ii,time).nql_izt))
+    fracoftotal_wtv(ii)=nanmean(frac2(1:ps3d(ii,time).nql_izt))
     
     InII=sum(obj_ud(ii).wqt_cs_UD(:,1:2)+obj_ud(ii).wqt_cs_DD(:,1:2),2);
     ItoVI=sum(obj_ud(ii).wqt_cs_UD(:,:)+obj_ud(ii).wqt_cs_DD(:,:),2);
     total=obj_ud(ii).wqt+ps(ii).sfs_qw(:,it)./ps(ii).dn0/2.5e6;
     frac1=InII./ItoVI; frac1(frac1>fracmax)=nan;
     frac2=InII./total; frac2(frac2>fracmax)=nan;
-    fracofUDDD_wqt(ii)=nanmean(frac1(1:ps3d(ii).nql_izt))
-    fracoftotal_wqt(ii)=nanmean(frac2(1:ps3d(ii).nql_izt))
+    fracofUDDD_wqt(ii)=nanmean(frac1(1:ps3d(ii,time).nql_izt))
+    fracoftotal_wqt(ii)=nanmean(frac2(1:ps3d(ii,time).nql_izt))
     
     InII=sum(obj_ud(ii).wtl_cs_UD(:,1:2)+obj_ud(ii).wtl_cs_DD(:,1:2),2);
     ItoVI=sum(obj_ud(ii).wtl_cs_UD(:,:)+obj_ud(ii).wtl_cs_DD(:,:),2);
     total=obj_ud(ii).wtl+ps(ii).sfs_tw(:,it);
     frac1=InII./ItoVI; frac1(abs(frac1)>fracmax)=nan;
     frac2=InII./total; frac2(abs(frac2)>fracmax)=nan;
-    fracofUDDD_wtl(ii)=nanmean(frac1(1:ps3d(ii).nql_izt))
-    fracoftotal_wtl(ii)=nanmean(frac2(1:ps3d(ii).nql_izt))
+    fracofUDDD_wtl(ii)=nanmean(frac1(1:ps3d(ii,time).nql_izt))
+    fracoftotal_wtl(ii)=nanmean(frac2(1:ps3d(ii,time).nql_izt))
+    
+    InIIu=sum(obj_ud(ii).wu_cs_UD(:,1:2)+obj_ud(ii).wu_cs_DD(:,1:2),2);
+    InIIv=sum(obj_ud(ii).wv_cs_UD(:,1:2)+obj_ud(ii).wv_cs_DD(:,1:2),2);
+    InII=sqrt(InIIu.^2+InIIv.^2);
+    ItoVIu=sum(obj_ud(ii).wu_cs_UD(:,:)+obj_ud(ii).wu_cs_DD(:,:),2);
+    ItoVIv=sum(obj_ud(ii).wv_cs_UD(:,:)+obj_ud(ii).wv_cs_DD(:,:),2);
+    ItoVI=sqrt(ItoVIu.^2+ItoVIv.^2);
+    totalu=obj_ud(ii).wu+ps(ii).sfs_uw(:,it);
+    totalv=obj_ud(ii).wv+ps(ii).sfs_vw(:,it);
+    total=sqrt(totalu.^2+totalv.^2);
+    frac1=InII./ItoVI; frac1(abs(frac1)>fracmax)=nan;
+    frac2=InII./total; frac2(abs(frac2)>fracmax)=nan;
+    fracofUDDD_wr(ii)=nanmean(frac1(1:ps3d(ii,time).nql_izt))
+    fracoftotal_wr(ii)=nanmean(frac2(1:ps3d(ii,time).nql_izt))
 end
 
 subplot(122)
-plot(1:11,fracoftotal_ww,1:11,fracoftotal_wqt,1:11,fracoftotal_wtv,1:11,fracoftotal_wtl)
+plot(1:11,fracoftotal_ww,1:11,fracoftotal_wqt,1:11,fracoftotal_wtv,1:11,fracoftotal_wtl,1:11,fracoftotal_wr)
 xticks(1:11)
 xticklabels(gnrl.mylgd)
 xtickangle(45)
 ylabel('Fraction of I+II over total flux','Interpreter','latex')
-legend('$R_{w''w''}$','$R_{w''q_t''}$','$R_{w''\theta_v''}$','$R_{w''\theta_l''}$','Interpreter','latex')
+legend('$R_{w''w''}$','$R_{w''q_t''}$','$R_{w''\theta_v''}$','$R_{w''\theta_l''}$','$R_{F_r}$','Interpreter','latex')
 
 subplot(121)
-plot(1:11,fracofUDDD_ww,1:11,fracofUDDD_wqt,1:11,fracofUDDD_wtv,1:11,fracofUDDD_wtl)
+plot(1:11,fracofUDDD_ww,1:11,fracofUDDD_wqt,1:11,fracofUDDD_wtv,1:11,fracofUDDD_wtl,1:11,fracofUDDD_wr)
 xticks(1:11)
 xticklabels(gnrl.mylgd)
 xtickangle(45)
 ylabel('Fraction of I+II over total UD+DD flux','Interpreter','latex')
-legend('$R_{w''w''}$','$R_{w''q_t''}$','$R_{w''\theta_v''}$','$R_{w''\theta_l''}$','Interpreter','latex')
+legend('$R_{w''w''}$','$R_{w''q_t''}$','$R_{w''\theta_v''}$','$R_{w''\theta_l''}$','$R_{F_r}$','Interpreter','latex')
+%%
+fig=gcf;
+fig.PaperUnits='inches';
+fig.PaperPosition=[0 0 6 3];
+print('../figures/Fig_turbfluxfraction','-depsc','-r600'); %close(1);

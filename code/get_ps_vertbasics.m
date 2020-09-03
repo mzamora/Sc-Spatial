@@ -1,7 +1,9 @@
 function ps=get_ps_vertbasics(base,ts)
     mycol=base.color;
     mystyle=base.style;
+    
  %% vertical profiles
+ 
     psfile1=base.psfile_03;
     psfile2=base.psfile_34;
     ps.zm=ncread(psfile1,'zm'); ps.nz=length(ps.zm);
@@ -55,6 +57,5 @@ function ps=get_ps_vertbasics(base,ts)
     ps.v2=[ncread(psfile1,'v_2'),ncread(psfile2,'v_2')];
     ps.uv2=sqrt(ps.u2.^2+ps.v2.^2);
     ps.w2=[ncread(psfile1,'w_2'),ncread(psfile2,'w_2')];
-    
-
+   
 end

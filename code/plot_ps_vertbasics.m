@@ -48,15 +48,15 @@ function plot_ps_vertbasics(base,ps,t_index)
     
     figure(10); %subplot(3,4,10)
     plot(mean(ps.buoy_tot(:,t_index),2),ps.zm/zi,mystyle,'Color',mycol); hold on; ylim([0 1.1]); ylabel('$z/z_i$','Interpreter','latex');
-    xlabel('Buoyancy production [m$^2$~s$^{-2}$]','Interpreter','latex');
+    xlabel('Buoyancy production [m$^2$~s$^{-3}$]','Interpreter','latex');
     
     figure(11); %subplot(3,4,11) %in zt!!
     plot(mean(ps.shear_tot(:,t_index),2),ps.zm/zi,mystyle,'Color',mycol); hold on; ylim([0 1.1]); ylabel('$z/z_i$','Interpreter','latex');
-    xlabel('Shear production [m$^2$~s$^{-2}$]','Interpreter','latex');
+    xlabel('Shear production [m$^2$~s$^{-3}$]','Interpreter','latex');
         
     figure(12); %subplot(3,4,12)
     plot(mean(ps.dissipation(:,t_index),2),ps.zm/zi,mystyle,'Color',mycol); hold on; ylim([0 1.1]); ylabel('$z/z_i$','Interpreter','latex');
-    xlabel('Dissipation [m$^2$~s$^{-2}$]','Interpreter','latex');
+    xlabel('Dissipation [m$^2$~s$^{-3}$]','Interpreter','latex');
     
     figure(13); %subplot(3,4,12)
     plot(mean(ps.ql2(:,t_index),2),ps.zm/zi,mystyle,'Color',mycol); hold on; ylim([0 1.1]); ylabel('$z/z_i$','Interpreter','latex');

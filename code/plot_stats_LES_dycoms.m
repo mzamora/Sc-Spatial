@@ -55,8 +55,8 @@ switch experiment
     case 'dycoms_14km_winds'
         outdir=['../out/',experiment];
         nkxdays={'ctl_dx35dz10_14km','075wind_dx35dz10_14km','05wind_dx35dz10_14km','025wind_dx35dz10_14km','0wind_dx35dz10_14km'};
-        mylgd={'CTRL','075Wind','05Wind','025Wind','0Wind'};
-        bcklgd={'0Wind','025Wind','05Wind','075Wind','CTRL'};
+        mylgd={'CTRL','075U','050U','025U','000U'};
+        bcklgd={'000U','025U','050U','075U','CTRL'};
         isinitial=1;
         t_index=19;
         it1=14; it2=19; %last hour
@@ -116,6 +116,14 @@ ylim([20 100]); legend(bcklgd,'Location','best')
 print([outdir,'/statsLES_ts'],'-depsc')
 close(1)
 
+%% cloud fraction evol (for APS poster)
+for ii=numcases:-1:1
+plot(ts(ii).times/3600,ts(ii).CF,'Color',cols(ii,:)); hold on
+end
+xlabel('Time (h)','Interpreter','latex'); ylabel('Cloud fraction','Interpreter','latex')
+legend(bcklgd,'Location','eastoutside'); set(gca,'fontsize', 16)
+ print([outdir,'/statsLES_CFt_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc')
+
 %% get ps data
 for ii=numcases:-1:1
     ps(ii)=get_ps_vertbasics(base(ii),ts(ii));
@@ -148,11 +156,18 @@ for ifig=1:16
 end
 close all;
 
+%% get mean wind speed and top wind diff at hour 3 (APS poster data)
+for ii=numcases:-1:1
+    ps(ii).q_ABL=mean(ps(ii).q_mean(20:70,19));
+    ps(ii).dU=abs(ps(ii).q_mean(120,19)-ps(ii).q_ABL);
+    ps(ii).shearnumber=ps(ii).dU/ps(ii).q_ABL;
+end
+
 %% slices at height with greatest CF
 time=1; % 1:right after hr3, 60:hr 4
 doplots=1;
 
-for ii=2:-1:1
+for ii=numcases:-1:1
     %% load 3d vars at that time
     filename=[datafolder,nkxdays{ii},'/hr3_4/'];
     var3d={'w','u','v','tl','tv','qt','ql','LWP'};
@@ -167,13 +182,13 @@ for ii=2:-1:1
     clf 
     
     %% plot contours in xy
-    sp1=subplot('Position',[0.05,0.1,0.25,.8]); plot_wanom_contour(u,v,w,10); title('$0.1 z/z_i$','Interpreter','latex')
-    sp2=subplot('Position',[0.38,0.1,0.25,.8]); plot_wanom_contour(u,v,w,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');
-    sp3=subplot('Position',[0.71,0.1,0.25,0.8]); plot_ql_xy_contour(u,v,ql,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');
+    sp1=subplot('Position',[0.05,0.14,0.27,.75]); plot_wanom_contour(u,v,w,10); title('$0.1 z/z_i$','Interpreter','latex'); ylabel('y [km]','Interpreter','latex'); xlabel('x [km]','Interpreter','latex');
+    sp2=subplot('Position',[0.38,0.14,0.27,.75]); plot_wanom_contour(u,v,w,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');xlabel('x [km]','Interpreter','latex');
+    sp3=subplot('Position',[0.71,0.14,0.27,.75]); plot_ql_xy_contour(u,v,ql,ps3d(ii).nql_max_iz); title('Max. CF','Interpreter','latex');xlabel('x [km]','Interpreter','latex');
 
     fig = gcf; fig.PaperUnits = 'inches'; fig.PaperPosition = [0 0 12 3];
     print([outdir,'/statsLES_maxCFslice_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc','-r600') %it will write it each time though
-    clf; fig = gcf; fig.PaperUnits = 'inches'; fig.PaperPosition = [0 0 4 3];
+    %clf; fig = gcf; fig.PaperUnits = 'inches'; fig.PaperPosition = [0 0 4 3];
     end
     
     %% conditional sampling and mean vertical profiles
@@ -292,14 +307,14 @@ subplot(121); xlabel('Updraft fraction','Interpreter','latex'); ylabel('$z/z_i$'
 subplot(122); xlabel('Downdraft fraction','Interpreter','latex'); ylabel('$z/z_i$','Interpreter','latex')
 legend(bcklgd,'Location','best')
 print([outdir,'/statsLES_nUDDDz_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc')
-clf
+% clf
 
 %% plot vertical cloud fraction together
 for ii=numcases:-1:1
     plot(ps3d(ii).nql(ps3d(ii).nql_izb:ps3d(ii).nql_izt),ps(ii).zm(ps3d(ii).nql_izb:ps3d(ii).nql_izt)/zi,'Color',base(ii).color); hold on
 end
  xlabel('Cloudy area fraction','Interpreter','latex'); ylabel('$z/z_i$','Interpreter','latex')
-legend(bcklgd,'Location','best')
+legend(bcklgd,'Location','eastoutside'); set(gca,'fontsize', 16)
  print([outdir,'/statsLES_CFz_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc')
 
 %% plot LWP, zi and zb pdfs
@@ -406,5 +421,6 @@ print([outdir,'/statsLES_scaling_uiwi'],'-depsc')
 %     results.tv_i(ii,1)=mean(sp.tv_i);
 %     save([outdir,'meanresults_',experiment],'results');
 
-%%
+%% Save mat
+save('../out/stats_LES_dycoms')
 

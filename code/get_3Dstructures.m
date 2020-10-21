@@ -29,6 +29,8 @@ for ii=gnrl.numcases:-1:1
     
     %% get mean wind speed profile for future orientations
     [u_z,v_z,winddir_z,sheardir_z]=get_mean_windspeed_z(u,v,w,izt,zm);
+    ps3d(ii,time).u_zhr4=u_z;
+    ps3d(ii,time).v_zhr4=v_z;    
     ps3d(ii,time).winddir_zhr4=winddir_z;
     ps3d(ii,time).sheardir_zhr4=sheardir_z;
     
@@ -276,6 +278,61 @@ for ii=9:-1:1
     subplot(236); xlabel('$q_l''$ (g kg$^{-1}$)','Interpreter','latex');
     print(['../out/check_obj_meanql',num2str(ii,'%02i')],'-depsc'); close(1)
 end
+
+%% are updrafts more well mixed 
+nx=length(xm); ny=length(ym);
+for ii=11:-1:1
+    casename=base(ii).name;  filename=[casename(1:end-4),'hr3_4/'];
+    var3d={'tl','qt'}; %{'w','u','v','tl','tv','qt','ql','LWP'};
+    for ivar=1:length(var3d)
+        load([filename,'rf01_',var3d{ivar},num2str(time,'%02i')])
+    end
+    nz=length(ps(ii).zm); it=find(ps(ii).time==4*3600);
+    
+    [out(ii).meantl_UD,out(ii).meantl_UD_perobj]=get_cs_meanvar_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,tl,ps3d(ii).nql_izt,nz,nx,ny,ps(ii),it,'r');
+    [out(ii).meantl_DD,out(ii).meantl_DD_perobj]=get_cs_meanvar_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,tl,ps3d(ii).nql_izt,nz,nx,ny,ps(ii),it,'b');
+%     for ip=1:6; subplot(2,3,ip); ylim([0 1]); xlim([-2 2]); end
+%     subplot(231); ylabel('$z/z_i$','Interpreter','latex');
+%     subplot(234); xlabel('$\theta_l''$ (K)','Interpreter','latex'); ylabel('$z/z_i$','Interpreter','latex');
+%     subplot(235); xlabel('$\theta_l''$ (K)','Interpreter','latex');
+%     subplot(236); xlabel('$\theta_l''$ (K)','Interpreter','latex');
+%     savefig(['../out/check_obj_tl',num2str(ii,'%02i')]); close(1)
+    
+    [out(ii).meanqt_UD,out(ii).meanqt_UD_perobj]=get_cs_meanvar_wobjfilters(obj_ud(ii).ccUD,obj_ud(ii).filters_UD,qt,ps3d(ii).nql_izt,nz,nx,ny,ps(ii),it,'r');
+    [out(ii).meanqt_DD,out(ii).meanqt_DD_perobj]=get_cs_meanvar_wobjfilters(obj_ud(ii).ccDD,obj_ud(ii).filters_DD,qt,ps3d(ii).nql_izt,nz,nx,ny,ps(ii),it,'b');
+%     for ip=1:6; subplot(2,3,ip); ylim([0 1]); xlim([-3 2]); end
+%     subplot(231); ylabel('$z/z_i$','Interpreter','latex');
+%     subplot(234); xlabel('$q_t''$ (g/kg)','Interpreter','latex'); ylabel('$z/z_i$','Interpreter','latex');
+%     subplot(235); xlabel('$q_t''$ (g/kg)','Interpreter','latex');
+%     subplot(236); xlabel('$q_t''$ (g/kg)','Interpreter','latex');
+%     savefig(['../out/check_obj_qt',num2str(ii,'%02i')]); close(1)
+
+end
+%%
+it=find(ps(ii).time==3600*4)
+subplot(141); plot(out(1).meantl_UD(:,1),zm,out(1).meantl_DD(:,1),zm,ps(1).tl(:,it),zm,'g--'); xlim([289.3 289.6])
+title(gnrl.mylgd{1})
+subplot(142); plot(out(5).meantl_UD(:,1),zm,out(5).meantl_DD(:,1),zm,ps(5).tl(:,it),zm,'g--'); xlim([289.3 289.6])
+title(gnrl.mylgd{5})
+subplot(143); plot(out(11).meantl_UD(:,1),zm,out(11).meantl_DD(:,1),zm,ps(11).tl(:,it),zm,'g--'); xlim([289.3 289.6])
+title(gnrl.mylgd{11})
+subplot(144); plot(out(7).meantl_UD(:,1),zm,out(7).meantl_DD(:,1),zm,ps(7).tl(:,it),zm,'g--'); xlim([289.3 289.6])
+title(gnrl.mylgd{7})
+
+%%
+
+it=find(ps(ii).time==3600*4)
+subplot(141); plot(out(1).meanqt_UD(:,1),zm,out(1).meanqt_DD(:,1),zm,ps(1).qt(:,it)/1000,zm,'g--'); xlim([8.8 9.7]*1e-3)
+title(gnrl.mylgd{1})
+subplot(142); plot(out(5).meanqt_UD(:,1),zm,out(5).meanqt_DD(:,1),zm,ps(5).qt(:,it)/1000,zm,'g--'); xlim([8.8 9.7]*1e-3)
+title(gnrl.mylgd{5})
+subplot(143); plot(out(11).meanqt_UD(:,1),zm,out(11).meanqt_DD(:,1),zm,ps(11).qt(:,it)/1000,zm,'g--'); xlim([8.8 9.7]*1e-3)
+title(gnrl.mylgd{11})
+subplot(144); plot(out(7).meanqt_UD(:,1),zm,out(7).meanqt_DD(:,1),zm,ps(7).qt(:,it)/1000,zm,'g--'); xlim([8.8 9.7]*1e-3)
+title(gnrl.mylgd{7})
+
+
+
 %%
 fs=12;
 ifil=1

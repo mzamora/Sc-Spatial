@@ -321,10 +321,10 @@ end
 %%
 f_largeThick_DD=f_large_DD & Lh_DD>=mean(Lh_DD(f_large_DD)); 
 f_largeThin_DD=f_large_DD &  Lh_DD<mean(Lh_DD(f_large_DD));
-f_mediumBottom_DD=f_medium_DD & z0_DD<zm(izb); % cloud base as threshold % z0/zm(izt)<0.5;
-f_mediumTop_DD=f_medium_DD & z0_DD>=zm(izb); % cloud base as threshold % z0/zm(izt)>=0.5;
-f_smallBottom_DD=f_small_DD & z0_DD<zm(izb); % cloud base as threshold % z0/zm(izt)<0.5;
-f_smallTop_DD=f_small_DD & z0_DD>=zm(izb); % cloud base as threshold % z0/zm(izt)>=0.5;
+f_mediumBottom_DD=f_medium_DD & z0_DD+dz_DD<zm(izb); % cloud base as threshold % z0/zm(izt)<0.5;
+f_mediumTop_DD=f_medium_DD & z0_DD+dz_DD>=zm(izb); % cloud base as threshold % z0/zm(izt)>=0.5;
+f_smallBottom_DD=f_small_DD & z0_DD+dz_DD<zm(izb); % cloud base as threshold % z0/zm(izt)<0.5;
+f_smallTop_DD=f_small_DD & z0_DD+dz_DD>=zm(izb); % cloud base as threshold % z0/zm(izt)>=0.5;
 filters_DD=[f_largeThick_DD, f_largeThin_DD, f_mediumBottom_DD,f_mediumTop_DD,f_smallBottom_DD,f_smallTop_DD];
 out(ieps).filters_DD=filters_DD;
 %% conditional sampling ww

@@ -23,9 +23,12 @@ nxs=396*ones(1,numcases); %set manually here
 nzs=131*ones(1,numcases);
 
 %datafolder='../../uclales_output/dycoms_rf01/grid_sens/'; % in the panthers
-styles={'-','-','-','-','-','--','-.','--','-.','--','-.'}; %styles=styles(1:numcases);
+styles={'-','-','-','-','-','x-','-s','x-','-s','x-','-s'}; %styles=styles(1:numcases);
 
-cols=linspace(1,0,5); cols=[cols',1-cols',1-cols']; %5 cases
+% CT=cbrewer('div','RdBu',11); cols=CT(1:5,:);
+CT=hot(8); cols=CT(1:5,:);
+% cols=[cols',1-cols',1-cols']; %5 cases cyan to red
+%cols=[cols',0*cols',1-cols']; %5 cases blue to red
 % cols=[cols(1,:);cols(1,:);cols;cols(end,:);cols(end,:)]; % plus the 6 extra in the CTRL and 000U
 cols=[cols;cols(1,:);cols(1,:);cols(3,:);cols(3,:);cols(end,:);cols(end,:)]; %with top shear cases
 gnrl.cols=cols;

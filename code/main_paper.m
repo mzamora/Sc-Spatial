@@ -13,7 +13,8 @@ load('../in/LESoutput/075U_14km_zrough_nudge/hr3_4/rf01_ym.mat')
 
 %% process 3D structures (preferred to do semi manually, to supervise results)
 edit get_3Dstructures.m %main one to get the UDDD and ql objects
-
+time=60;
+load(['../out/objects_time_',num2str(time)],'obj_ql','obj_ud')
 %% Fig.2  spin-up & time evolution
 edit fig_timeevolution.m
 
@@ -31,9 +32,10 @@ edit fig_spatialslices.m
 %% Fig. 7 Spatial ztop
 % edit fig_spatialcloudtopandbase.m %older version
 edit fig_spatial_ztop.m
+edit support_ztop_interpretation.m
 
 %% Fig. 8 3D view of I and II objects
-edit plot_3dstructuresIandII.m %fig with 3d objects
+edit plot_3dstructcturesIandII.m %fig with 3d objects
 
 %% Fig. 9 UDDD objects by class
 edit plot_objects_by_category.m % plot the UD DD structures I to VI
@@ -64,3 +66,4 @@ edit make_finergrid %refine the grid for an extra check up case
 edit fig_tkebudget.m % plot tke budget components
 edit fig_windspeedprofiles.m
 edit get_spatialautocorrelation.m % and plot it like salesky (polar coords)
+edit 

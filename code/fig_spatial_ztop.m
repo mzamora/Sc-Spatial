@@ -11,7 +11,27 @@ for ip=1:9
 %     xticks([-5 0 5]); yticks([-5 0 5]);
 %     print(['../figures/Spatial_',gnrl.mylgd{ii},'_cth_t',num2str(time,'%02i')],'-dpng'); close(1);
 end
+
+%% get theoretical wavelength
+% edit get_theorericalwavelength
+lS2=lambda_KH(end)/1e3; %in km
 %%
+linecol=[1 1 0]
+subplot(3,3,7); hold on; angle=40
+for xs=0:lS2:7
+    ys=-7+(7-xs)*tand(angle)
+    plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
+end
+subplot(3,3,8); hold on; angle=40
+for xs=0:lS2:7
+    ys=-7+(7-xs)*tand(angle)
+    plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
+end
+subplot(3,3,9); hold on; angle=40
+for xs=0:lS2:7
+    ys=-7+(7-xs)*tand(angle)
+    plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
+end
 
 for ip=[2,3,5,6,8,9]
     subplot(3,3,ip); yticks([]);
@@ -37,6 +57,7 @@ for ip=1:9
     iy=ceil(ip/3);
     set(sp(ip),'Position',[x(ix) y(iy) wdt hgt])
 end
+
 
 %%
 rectangle(sp(1),'Position',[-7 -7 4.5 2],'FaceColor','k','EdgeColor','none')

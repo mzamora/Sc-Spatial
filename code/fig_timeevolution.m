@@ -23,9 +23,10 @@ plot(ts(ii).times/3600,ts(ii).vtke/1000,base(ii).style,'Color',gnrl.cols(ii,:),'
 end
 xlabel('Time (h)','Interpreter','latex'); 
 % ylabel('$w_e$ (mm s$^{-1}$)','Interpreter','latex'); 
-ylabel('Integrated TKE (g s$^{-1}$)','Interpreter','latex'); 
+ylabel('Integrated TKE (m$^3$ s$^{-2}$)','Interpreter','latex'); 
 set(gca,'fontsize', fs,'fontname',fnt); ylim([0 1.5])
 text(0,1.12,nos{1},'Units','Normalized','VerticalAlignment','Top','FontSize',fs,'Interpreter','latex') %subplot label
+xticks([0 2 4])
 
 sp2=subplot(142); % cloud fraction evol
 for ii=iis
@@ -35,6 +36,7 @@ end
 xlabel('Time (h)','Interpreter','latex'); ylabel('Cloud fraction','Interpreter','latex'); 
 set(gca,'fontsize', fs,'fontname',fnt); ylim([.8 1])
 text(0,1.12,nos{2},'Units','Normalized','VerticalAlignment','Top','FontSize',fs,'Interpreter','latex')%subplot label
+xticks([0 2 4])
 
 sp3=subplot(143); % LWP
 for ii=iis
@@ -43,6 +45,7 @@ end
 xlabel('Time (h)','Interpreter','latex'); ylabel('Liquid water path (g m$^{-2}$)','Interpreter','latex')
 set(gca,'fontsize', fs,'fontname',fnt); ylim([0 80])
 text(.0,1.12,nos{3},'Units','Normalized','VerticalAlignment','Top','FontSize',fs,'Interpreter','latex') %subplot label
+xticks([0 2 4])
 
 sp4=subplot(144); % cloud boundaries
 for ii=iis
@@ -55,6 +58,7 @@ xlabel('Time (h)','Interpreter','latex'); ylabel('Cloud boundaries (m)','Interpr
 legend(gnrl.mylgd(iis),'Location','eastoutside','Interpreter','latex'); 
 set(gca,'fontsize', fs,'fontname',fnt); ylim([580 900])
 text(.0,1.12,nos{4},'Units','Normalized','VerticalAlignment','Top','FontSize',fs,'Interpreter','latex') %subplot label
+xticks([0 2 4])
 
 %  print([outdir,'/statsLES_CFt_',nkxdays{ii},'_',num2str(time,'%02i')],'-depsc')
 set(sp1,'Position',[0.06 0.2 0.15 0.7],'XLim',[0 hr])

@@ -1,9 +1,9 @@
-ip=1; lw=1.2
-figure('Position',[0 0 900 600])
+ip=1; lw=1.2;
+figure('Position',[0 0 1100 600])
 % updrafts per category
-for ii=[5 1 11 7] %[5,3,1, 10,8,6, 11,9,7]
-    sp(ip)=subplot(4,2,ip);
-    
+for ii=[11 7] %[5 1 11 7] %[5,3,1, 10,8,6, 11,9,7]
+    sp(ip)=subplot(2,2,ip);
+    %%
     set(gca,'FontSize',12)
 rp=obj_ud(ii).rpUD;
 filUD=obj_ud(ii).filters_UD;
@@ -14,6 +14,9 @@ dz=obj_ud(ii).dzUD;
 z1=z0+dz;
 Lh=obj_ud(ii).LhUD;
 vol=obj_ud(ii).volUD;
+
+dz1UD=obj_ud(ii).dzsmall_UD;
+dz2UD=obj_ud(ii).dzlarge_UD;
 
 % colors=get(gca,'colororder');
 % colors=[0 0 0]+[0 73 73; 182 109 255; 0 146 146; 109 182 255; 255 109 182; 182 219 255]/256;
@@ -36,8 +39,8 @@ for ifilter=1:6
         x0=x0+sqrt(vol(iobj)/dz(iobj))/1000;
     end
 end
-title(gnrl.mylgd{ii},'Interpreter','latex'); ylim([0 1]); xlim([0 90])
-
+title(gnrl.mylgd{ii},'Interpreter','latex'); ylim([0 1]); xlim([0 140])
+%%
     ip=ip+1;
     
 % xlabel('$L_h$ (km)','Interpreter','latex'); ylabel('$z$ (m)','Interpreter','latex')
@@ -46,8 +49,9 @@ title(gnrl.mylgd{ii},'Interpreter','latex'); ylim([0 1]); xlim([0 90])
 end
 
 %% downdrafts per category
-for ii=[5 1 10 7] %[5,3,1, 10,8,6, 11,9,7]
-    sp(ip)=subplot(4,2,ip);
+for ii=[11 7] %[5 1 10 7] %[5,3,1, 10,8,6, 11,9,7]
+    sp(ip)=subplot(2,2,ip);
+    %%
     set(gca,'FontSize',12)
     rp=obj_ud(ii).rpDD;
     filDD=obj_ud(ii).filters_DD;
@@ -80,8 +84,8 @@ colors=[0 .8 .1;1 .4 0; .4 1 .6; .6 0 1; .4 .8 1;1 .8 .6];
             x0=x0+sqrt(vol(iobj)/dz(iobj))/1000;
         end
     end
-    title(gnrl.mylgd{ii},'Interpreter','latex'); ylim([0 1]); xlim([0 90])
-
+    title(gnrl.mylgd{ii},'Interpreter','latex'); ylim([0 1]); xlim([0 140])
+%%
 
     ip=ip+1;
     
@@ -95,8 +99,8 @@ h = zeros(6, 1);
 for i=1:6
 h(i) = plot(NaN,NaN,'Color',colors(i,:),'LineWidth',lw);
 end
-lgd=legend(h,'I: Large thick','II: Large thin','III: Medium bottom','IV: Medium top', ...
-    'V: Small bottom','VI:Small top','Location','eastoutside','Interpreter','latex','FontSize',12);
+lgd=legend(h,'I: Tall thick','II: Tall thin','III: Medium bottom','IV: Medium top', ...
+    'V: Short bottom','VI:Short top','Location','eastoutside','Interpreter','latex','FontSize',12);
 title(lgd,'Object Category')
 
 %% 2 cases
@@ -106,7 +110,7 @@ set(sp(3),'Position',[x1 y2 wdt hgt]); title(sp(3),[])
 xticks(sp(2),[]); set(sp(2),'Position',[x1 y1+hgt+0.02 wdt hgt])
 set(sp(4),'Position',[x1 y1 wdt hgt]); title(sp(4),[])
 
-for ip=1:4; xlim(sp(ip),[0 80]); ylim(sp(ip),[0 1.05]); end
+for ip=1:4; xlim(sp(ip),[0 90]); ylim(sp(ip),[0 1.05]); end
 for ip=1:4; ylabel(sp(ip),'$z/z_i$','Interpreter','latex'); end
 xlabel(sp(4),'Cumulative $L_h$ (km)','Interpreter','latex')
 
@@ -135,7 +139,7 @@ xticks(sp(4),[]); set(sp(4),'Position',[x2 y1+hgt+0.02 wdt hgt])
 set(sp(8),'Position',[x2 y1 wdt hgt]); title(sp(8),[])
 
 for ip=1:8
-    xlim(sp(ip),[0 80])
+    xlim(sp(ip),[0 135])
     ylim(sp(ip),[0 1.05])
 end
 for ip=[1,3,5,7]
@@ -148,10 +152,10 @@ for ip=7:8
     xlabel(sp(ip),'Cumulative $L_h$ (km)','Interpreter','latex')
 end
 for ip=1:4
-    text(sp(ip),60,.5,'Updrafts','Interpreter','latex','FontSize',12,'HorizontalAlignment','center')
+    text(sp(ip),110,.5,'Updrafts','Interpreter','latex','FontSize',12,'HorizontalAlignment','center')
 end
 for ip=5:8
-    text(sp(ip),60,.5,'Downdrafts','Interpreter','latex','FontSize',12,'HorizontalAlignment','center')
+    text(sp(ip),110,.5,'Downdrafts','Interpreter','latex','FontSize',12,'HorizontalAlignment','center')
 end
 lgd.Orientation='horizontal';
 lgd.Position=[.3 0.02 .4 .05];
@@ -202,10 +206,10 @@ end
 lgd.Position=[.86 .45 .13 .13];
 
 %% Save plot
-filename=['../figures/Fig_UDDDobjectsbyclass_4cases_v3'];
+filename=['../figures/Fig_UDDDobjectsbyclass_2cases_S10_vjan2020_xlim90'];
 fig=gcf;
 fig.PaperUnits='inches';
-fig.PaperPosition=[0 0 9 6];
+fig.PaperPosition=[0 0 11 6];
 print(filename,'-depsc')
 
 

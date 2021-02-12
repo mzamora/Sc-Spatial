@@ -1,4 +1,7 @@
-for time=45:60 %hr 4
+% updated to consider a classification dependent on the statistics of the
+% objects
+
+for time=60 %45:60 %hr 4
 time
 for ii=gnrl.numcases:-1:1
     ii
@@ -38,15 +41,15 @@ for ii=gnrl.numcases:-1:1
     %%                    3D objects                          %%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% ql 3D objects?
-    outpref=['../out/',gnrl.mylgd{ii},'_structures/3D_p50/'];
-    if ~exist(outpref,'dir'); mkdir(outpref); end
-    obj_ql(ii)=segmentation_3d_ql(ql,zm,xm,ym,izb,izt,outpref,time,winddir_z,u_z,v_z,iz_nqlmax,w,tv,tl,qt,ps(ii));
-    obj_qlw(ii)=segmentation_3d_qlw(ql,zm,xm,ym,izb,izt,outpref,time,winddir_z,u_z,v_z,iz_nqlmax,w,tv,tl,qt,ps(ii));
+%     outpref=['../out/',gnrl.mylgd{ii},'_structures/3D_p50/'];
+%     if ~exist(outpref,'dir'); mkdir(outpref); end
+%     obj_ql(ii)=segmentation_3d_ql(ql,zm,xm,ym,izb,izt,outpref,time,winddir_z,u_z,v_z,iz_nqlmax,w,tv,tl,qt,ps(ii));
+%     obj_qlw(ii)=segmentation_3d_qlw(ql,zm,xm,ym,izb,izt,outpref,time,winddir_z,u_z,v_z,iz_nqlmax,w,tv,tl,qt,ps(ii));
 
     %% updraft 3D objects?
-    outpref=['../out/',gnrl.mylgd{ii},'_structures/3D_UDDD/'];
+    outpref=['../out/',gnrl.mylgd{ii},'_structures/3D_UDDD_jan2021/'];
     if ~exist(outpref,'dir'); mkdir(outpref); end
-    obj_ud(ii)=segmentation_3d_updrafts_downdrafts(w,zm,xm,ym,izb,izt,outpref,time,tv,qt,tl,ql,u,v);
+    obj_ud(ii)=statsegmentation_3d_updrafts_downdrafts(w,zm,xm,ym,izb,izt,outpref,time,tv,qt,tl,ql,u,v);
     
 %     %% buoyancy 3D objects?
 %     outpref=['../out',casename(6:end),'_structures/buoyancy/'];
@@ -56,7 +59,9 @@ for ii=gnrl.numcases:-1:1
 end
 %% skip and load results
 outpref=['../out/'];
-save([outpref,'objects_time_',num2str(time)],'obj_ql','obj_ud')
+
+save([outpref,'objects_time_jan',num2str(time)],'obj_ud')
+
 % load([outpref,'objects_gaussianr2n3'])
 end
 

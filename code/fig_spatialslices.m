@@ -30,6 +30,8 @@ for ip=1:3
     meanu=mean(uxy,'all'); meanv=mean(vxy,'all');
     contourf(xm/1000,ym/1000,wanom,'LineStyle','none'); caxis([-1.5 1.5]); colormap('bone'); hold on
     quiver(0,0,meanu,meanv,0.5,'Color','yellow','LineWidth',3)
+    rectangle('Position',[1.3 -7 5.7 1.5],'FaceColor','k','EdgeColor','none')
+    text(1.3,-6.3,['$z=',num2str(ps(ii).zm(iz)/ps(ii).zm(ps3d(ii,time).nql_izt),'%0.2f'),'z_i$'],'Interpreter','latex','Color','white','FontSize',12)
 %     c=colorbar; ylabel(c,'$w''(x,y){~\rm(m~s^{-1})}$ at cloudiest level','Interpreter','latex','Fontsize',16)
 %     xlabel('$x$ (km)','Interpreter','latex','Fontsize',16); ylabel('$y$ (km)','Interpreter','latex','Fontsize',16)
 %     xticks([-5 0 5]); yticks([-5 0 5]);
@@ -155,6 +157,8 @@ for ip=1:3
     meanu=mean(uxy,'all'); meanv=mean(vxy,'all');
     contourf(xm/1000,ym/1000,wanom,'LineStyle','none'); caxis([-1.5 1.5]); colormap('bone'); hold on
     quiver(0,0,meanu,meanv,0.5,'Color','yellow','LineWidth',3)
+    rectangle('Position',[1.3 -7 5.7 1.5],'FaceColor','k','EdgeColor','none')
+    text(1.3,-6.3,['$z=',num2str(ps(ii).zm(iz)/ps(ii).zm(ps3d(ii,time).nql_izt),'%0.2f'),'z_i$'],'Interpreter','latex','Color','white','FontSize',12)
 %     c=colorbar; ylabel(c,'$w''(x,y){~\rm(m~s^{-1})}$ at cloudiest level','Interpreter','latex','Fontsize',16)
 %     xlabel('$x$ (km)','Interpreter','latex','Fontsize',16); ylabel('$y$ (km)','Interpreter','latex','Fontsize',16)
 %     xticks([-5 0 5]); yticks([-5 0 5]);

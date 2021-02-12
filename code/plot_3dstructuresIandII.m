@@ -1,4 +1,4 @@
-iis=[7,11]; %[1,5]
+iis=[7,11]; %[7,11]; %[1,5]; %
 for ii=iis %[7,11] %[1,5]
     gnrl.mylgd(ii)
 
@@ -54,11 +54,13 @@ switch ii
         sp1=subplot(231);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
         plot_isosurface(maskUD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD2,1)),[.8 .4 0])
-        xlim([-7 -3]); ylim([-5 -.7]); view(110,20)
+        %xlim([-7 -3]); ylim([-5 -.7]); view(110,20); box on
+        xlim([-6 -3]); ylim([-5 -2]); view(110,20); box on
         sp2=subplot(232);
         plot_isosurface(maskDD,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD,1)),'blue')
         plot_isosurface(maskDD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD2,1)),[0 .4 .8])
-        xlim([0 3]); ylim([-2.5 2]); view(110,20)
+        %xlim([0 3]); ylim([-2.5 2]); view(110,20); box on
+        xlim([4 7]); ylim([3 6]); view(110,20); box on
     case 5 %000U
         sp6=subplot(236);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
@@ -68,11 +70,13 @@ switch ii
         sp4=subplot(234);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
         plot_isosurface(maskUD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD2,1)),[.8 .4 0])
-        xlim([-6 -2.6]); ylim([3.6 6]); view(30,20)
+%         xlim([-6 -2.6]); ylim([3.6 6]); view(30,20); box on
+        xlim([-4 -.6]); ylim([1 4]); view(110,20); box on
         sp5=subplot(235);
         plot_isosurface(maskDD,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD,1)),'blue')
         plot_isosurface(maskDD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD2,1)),[0 .4 .8])
-        xlim([-4.5 -.6]); ylim([3.6 7]); view(30,20)
+%         xlim([-4.5 -.6]); ylim([3.6 7]); view(30,20); box on
+        xlim([4 7]); ylim([3 6]); view(110,20); box on
     case 7 %CTRL-S2
         sp3=subplot(233);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
@@ -82,11 +86,13 @@ switch ii
         sp1=subplot(231);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
         plot_isosurface(maskUD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD2,1)),[.8 .4 0])
-        xlim([-1.8 2.5]); ylim([-3.5 1]); view(110,20)
+%         xlim([-1.8 2.5]); ylim([-3.5 1]); view(110,20); box on
+        xlim([-4 -1]); ylim([-6 -3]); view(110,20); box on
         sp2=subplot(232);
         plot_isosurface(maskDD,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD,1)),'blue')
         plot_isosurface(maskDD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD2,1)),[0 .4 .8])
-        xlim([-1.3 1]); ylim([1.5 5]); view(110,20)
+%         xlim([-1.3 1]); ylim([1.5 5]); view(110,20); box on
+        xlim([0 3]); ylim([-5 -2]); view(110,20); box on
     case 11 %000U-S2
         sp6=subplot(236);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
@@ -96,11 +102,13 @@ switch ii
         sp4=subplot(234);
         plot_isosurface(maskUD,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD,1)),'red'); hold on
         plot_isosurface(maskUD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskUD2,1)),[.8 .4 0])
-        xlim([1.5 5]); ylim([1 4]); view(30,20)
+%         xlim([1.5 5]); ylim([1 4]); view(30,20); box on
+        xlim([-2 1]); ylim([1 4]); view(110,20); box on
         sp5=subplot(235);
         plot_isosurface(maskDD,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD,1)),'blue')
         plot_isosurface(maskDD2,0.5,xm/1e3,ym/1e3,zm(1:size(maskDD2,1)),[0 .4 .8])
-        xlim([-4.8 -1.5]); ylim([-5 -1.5]); view(-20,20)
+%         xlim([-4.8 -1.5]); ylim([-5 -1.5]); view(-20,20); box on
+        xlim([4 7]); ylim([3 6]); view(110,20); box on
 end
 
 end
@@ -169,7 +177,8 @@ end
 fig=gcf;
 fig.PaperUnits='inches';
 fig.PaperPosition=[0 0 12 6];
-print('../figures/Fig_vis3Dobjects_S10_cont','-dpng','-r300')
+% print('../figures/Fig_vis3Dobjects_NS_cont_jan2021','-dpng','-r300')
+print('../figures/Fig_vis3Dobjects_S10_cont_jan2021','-dpng','-r300')
 
 %% cloud cores
 ii=2

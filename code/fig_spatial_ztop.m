@@ -12,26 +12,53 @@ for ip=1:9
 %     print(['../figures/Spatial_',gnrl.mylgd{ii},'_cth_t',num2str(time,'%02i')],'-dpng'); close(1);
 end
 
-%% get theoretical wavelength
+%%  for the last 3 (S10) get theoretical wavelength
+angsDelta=[]; usDelta=[]; vsDelta=[];
+for ii=[5,3,1,10,8,6,11,9,7]
+time=60; % for time=1:4 %60
+filename=[base(ii).datafolder,base(ii).casename,'/hr3_4/'];
+load([filename,'rf01_u',num2str(time,'%02i')]);
+load([filename,'rf01_v',num2str(time,'%02i')]);
+load([filename,'rf01_tv',num2str(time,'%02i')]);
+
+q=sqrt(u.^2+v.^2); %plot(mean(q,[2 3]),zm)
+% find shear layer
+qmean_z=mean(q,[2 3]); umean_z=mean(u,[2 3]); vmean_z=mean(v,[2 3]);
+d2qz=diff(qmean_z,2); % 2nd derivative of tv
+[~,izu1]=max(d2qz(20:end-1)); izu1=izu1+20; %skip sometimes spurious last point
+[~,izu2]=min(d2qz(20:end-1)); izu2=izu2+20; 
+
+% uBL and vBL (below and above 200m of the shear layer)
+itop=find(zm>zm(izu2)+200,1);
+ilow=find(zm>zm(izu1)-200,1);
+uBL=mean(umean_z(ilow:izu1)); vBL=mean(vmean_z(ilow:izu1)); qBL=mean(qmean_z(ilow:izu1));
+uFT=mean(umean_z(izu2:itop)); vFT=mean(vmean_z(izu2:itop)); qFT=mean(qmean_z(izu2:itop));
+
+% angles:
+angBL=atan2d(vBL,uBL);
+angFT=atan2d(vFT,uFT);
+angDelta=atan2d(vFT-vBL,uFT-uBL); angsDelta=[angsDelta,angDelta];
+usDelta=[usDelta,uFT-uBL]; vsDelta=[vsDelta,vFT-vBL];
+end
+
 % edit get_theorericalwavelength
 lS2=lambda_KH(end)/1e3; %in km
 %%
-linecol=[1 1 0]
-subplot(3,3,7); hold on; angle=40
+linecol=[1 1 0];
+for ip=1:6
+    subplot(3,3,ip); hold on; 
+    quiver(0,0,usDelta(ip),vsDelta(ip),.4,'LineWidth',4,'Color',[1 0 0])
+end
+
+for ip=7:9
+subplot(3,3,ip); hold on; angle=90+angsDelta(ip);
+quiver(0,0,usDelta(ip),vsDelta(ip),.4,'LineWidth',4,'Color',[1 0 0])
 for xs=0:lS2:7
-    ys=-7+(7-xs)*tand(angle)
+    ys=-7+(7-xs)*tand(angle);
     plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
 end
-subplot(3,3,8); hold on; angle=40
-for xs=0:lS2:7
-    ys=-7+(7-xs)*tand(angle)
-    plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
 end
-subplot(3,3,9); hold on; angle=40
-for xs=0:lS2:7
-    ys=-7+(7-xs)*tand(angle)
-    plot([7 xs],[ys -7],'Color',linecol,'LineWidth',1.8)
-end
+
 
 for ip=[2,3,5,6,8,9]
     subplot(3,3,ip); yticks([]);
@@ -84,7 +111,7 @@ text(sp(9),-6.9,-6,'CTRL-S10','Color','y','FontSize',14)
 c.Position=[.87 .33 .03 .39];
 %%
 %%
-filename=['../figures/Fig_Spatial_ztop'];
+filename=['../figures/Fig_Spatial_ztop_jan2021'];
 fig=gcf; fig.PaperUnits='inches'; fig.PaperPosition=[0 0 7 6];
 print(filename,'-dpng','-r300')
 print([filename,'_r600'],'-dpng','-r600')

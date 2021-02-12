@@ -12,6 +12,7 @@ for i=gnrl.numcases:-1:1
     if i>0; ps.time=[ncread(psfile1,'time');ncread(psfile2,'time');ncread(psfile3,'time')];
     else; ps.time=[ncread(psfile1,'time');ncread(psfile2,'time')]; end
     ps.zi=ts.zis(ismember(ts.times,ps.time));
+    ps.zct=ts.zct(ismember(ts.times,ps.time));
     ps.zb=ts.zcb(ismember(ts.times,ps.time));
 %     ps.zi=mean(ts.zis(ismember(ts.times,ts.time0+(it1:it2)*60))); %mean zi between min 30-45
 %     ps.zb=mean(ts.zcb(ismember(ts.times,ts.time0+(it1:it2)*60))); %mean zb between min 30-45
@@ -36,18 +37,21 @@ for i=gnrl.numcases:-1:1
     ps.dir0=atan2(ps.v0,ps.u0)*180/pi; %direction in degrees in BL
     ps.dn0=ncread(psfile1,'dn0');
     
+    
     %%
     if i>0
     ps.qt=[convert_zt_to_zm(ncread(psfile1,'q')),convert_zt_to_zm(ncread(psfile2,'q')),convert_zt_to_zm(ncread(psfile3,'q'))];
     ps.ql=[convert_zt_to_zm(ncread(psfile1,'l')),convert_zt_to_zm(ncread(psfile2,'l')),convert_zt_to_zm(ncread(psfile3,'l'))];
     ps.rflx=[convert_zt_to_zm(ncread(psfile1,'rflx')),convert_zt_to_zm(ncread(psfile2,'rflx')),convert_zt_to_zm(ncread(psfile3,'rflx'))];
     ps.tl=[convert_zt_to_zm(ncread(psfile1,'t')),convert_zt_to_zm(ncread(psfile2,'t')),convert_zt_to_zm(ncread(psfile3,'t'))];
+    ps.p=[ncread(psfile1,'p'),ncread(psfile2,'p'),ncread(psfile3,'p')];
 %     ps.u=[convert_zt_to_zm(ncread(psfile1,'u')),convert_zt_to_zm(ncread(psfile2,'u'))];
     else
     ps.qt=[convert_zt_to_zm(ncread(psfile1,'q')),convert_zt_to_zm(ncread(psfile2,'q'))];
     ps.ql=[convert_zt_to_zm(ncread(psfile1,'l')),convert_zt_to_zm(ncread(psfile2,'l'))];
     ps.rflx=[convert_zt_to_zm(ncread(psfile1,'rflx')),convert_zt_to_zm(ncread(psfile2,'rflx'))];
     ps.tl=[convert_zt_to_zm(ncread(psfile1,'t')),convert_zt_to_zm(ncread(psfile2,'t'))];
+    ps.p=[ncread(psfile1,'p'),ncread(psfile2,'p')];
 %     ps.u=[convert_zt_to_zm(ncread(psfile1,'u')),convert_zt_to_zm(ncread(psfile2,'u'))];
     end
     

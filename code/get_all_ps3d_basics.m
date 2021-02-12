@@ -10,6 +10,7 @@ for ii=gnrl.numcases:-1:1
     
     %% vertical cloud fraction and levels
     ps3d(ii,time)=get_vertical_cloudfrac_levels(ql,LWP,tl,ps(ii));
+    end
 end
 %%
     if doplots

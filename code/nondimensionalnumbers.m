@@ -159,7 +159,8 @@ lgd=legend(gnrl.mylgd,'Location','eastoutside','Interpreter','latex');
 
 set(sp1,'Position',[.07 0.16 .3 .76])
 set(sp2,'Position',[.45 0.16 .28 .76])
-%% plot some results in this plane
+%% plot some results in this plane 
+% FIG SUMMARY
 figure('Position',[1400 0 900 800])
 
 sp(1)=subplot(431); scatter(x,y,100,CF4,'filled'); cb(1)=colorbar; 
@@ -265,7 +266,7 @@ for ib=1:12
     cb(ib).Position(4)=cb(ib).Position(4)-0.03;
     sp(ib).FontSize=11;
 end
-print('../figures/Fig_Summary','-depsc','-r300')
+print('../figures/Fig_Summary_jan2021','-depsc','-r300')
 %%
 plot((ustar0_4./wstar0_4).^3,(ustari_4./wstarcld_4).^3,'*'); xlabel('$(u_{*,0}/w_{*,0})^3$','Interpreter','latex'); ylabel('$(u_{*,i}/w_{*,cld})^3$','Interpreter','latex');
 set(gca,'FontSize',12)

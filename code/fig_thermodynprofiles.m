@@ -94,7 +94,7 @@ sp8=subplot(248); %ql
 for ii=iis
     plot(ps(ii).ql(:,it),ps(ii).zm/ps(ii).zi(it),base(ii).style,'Color',base(ii).color,'LineWidth',lw,'MarkerIndices',1:5:131); hold on
 end
-ylim([0.7 1.03]); xlim([0 0.35]); yticks([.7 .8 .9 1])
+ylim([0.7 1.03]); xlim([0 0.4]); yticks([.7 .8 .9 1])
 xlabel('$q_l(z)$ (g kg$^{-1}$)','Interpreter','latex');
 ylabel('$z/z_i$','Interpreter','latex');set(gca,'fontsize',fs,'fontname',fnt)
 text(.0,1.08,'g)','Units','Normalized','VerticalAlignment','Top','FontSize',fs,'Interpreter','latex') %subplot label
